@@ -1,0 +1,40 @@
+Sub Button1_Click()
+
+' Pulls each individual stock ticker number on the sheet
+Dim sheet As Worksheet
+Dim r As Range
+Dim rownum As Integer
+Dim stocknum As Integer
+
+rownum = 0
+stocknum = 0
+
+Set sheet = ActiveSheet
+For Each r In sheet.Rows
+
+If sheet.Cells(r.row, 1) = "" Then
+    Exit For
+ElseIf sheet.Cells(r.row, 1).Value <> sheet.Cells(r.row + 1, 1).Value Then
+    stocknum = stocknum + 1
+    sheet.Cells(stocknum, 10).Value = sheet.Cells(r.row, 1).Value
+End If
+
+Next r
+' Ends process to pull each individual stock ticker number on the sheet
+
+' Adds headers for other data
+sheet.Cells(1, 11).Value = "<net change>"
+sheet.Cells(1, 12).Value = "<percent change>"
+sheet.Cells(1, 13).Value = "<total volume>"
+' Ends process to add headers
+
+' using https://docs.microsoft.com/en-us/office/troubleshoot/excel/loop-through-data-using-macro determined how to find the total list of stocks in our new, abbreviated list
+Range("J2").Select
+Do Until IsEmpty(ActiveCell)
+' code goes here
+ActiveCell.Offset(1, 0).Select
+Loop
+
+
+
+End Sub
